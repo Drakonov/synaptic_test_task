@@ -1,0 +1,43 @@
+import 'dart:async';
+import 'package:http/http.dart' as http;
+
+import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+
+import 'model/item_post.dart';
+
+part 'second_event.dart';
+
+part 'second_state.dart';
+
+class SecondBloc extends Bloc<SecondEvent, SecondState> {
+  ItemPost _post;
+
+  SecondBloc(SecondState initialState) : super(SecondInitial());
+
+  @override
+  Stream<SecondState> mapEventToState(
+    SecondEvent event,
+  ) async* {
+    if (event is LoadSecond) {
+      yield SecondInitial();
+      _post = await _fetch(event.id);
+      yield SecondLoaded(_post);
+    }
+    if (event is DeleteRecordSecond){
+      yield SecondInitial();
+      _post = await _delete(event.id);
+      yield SecondDeleted();
+    }
+  }
+  Future<ItemPost> _fetch(_id) async {
+    var url = 'https://jsonplaceholder.typicode.com/posts/$_id';
+    var _response = await http.get(url);
+    return (itemPostFromJson(_response.body));
+  }
+  Future<ItemPost> _delete(_id) async {
+    var url = 'https://jsonplaceholder.typicode.com/posts/$_id';
+    var _response = await http.delete(url);
+    return (itemPostFromJson(_response.body));
+  }
+}
