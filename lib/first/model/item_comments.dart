@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-ItemUser itemUserFromJson(String str) => ItemUser.fromJson(json.decode(str));
+ItemComments itemCommentsFromJson(String str) => ItemComments.fromJson(json.decode(str));
 
-String itemUserToJson(ItemUser data) => json.encode(data.toJson());
+String itemCommentsToJson(ItemComments data) => json.encode(data.toJson());
 
-class ItemUser {
-  ItemUser({
+class ItemComments {
+  ItemComments({
     this.postId,
     this.id,
     this.name,
@@ -19,7 +19,7 @@ class ItemUser {
   String email;
   String body;
 
-  factory ItemUser.fromJson(Map<String, dynamic> json) => ItemUser(
+  factory ItemComments.fromJson(Map<String, dynamic> json) => ItemComments(
         postId: json["postId"],
         id: json["id"],
         name: json["name"],

@@ -12,3 +12,9 @@ class SecondLoaded extends SecondState {
 }
 
 class SecondDeleted extends SecondState{}
+
+class SecondModify extends SecondState{
+  final ItemPost item;
+
+  SecondModify(this.item);
+}

@@ -16,3 +16,11 @@ class DeleteRecordSecond extends SecondEvent{
 
   DeleteRecordSecond(this.id);
 }
+
+class ModifyRecordSecond extends SecondEvent{
+  final ItemPost item;
+
+  ModifyRecordSecond(this.item);
+}
+
+

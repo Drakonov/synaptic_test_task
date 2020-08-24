@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:synaptic_test_task/first/model/item_comments.dart';
 
 import 'model/item_post.dart';
 
@@ -29,10 +30,27 @@ class SecondBloc extends Bloc<SecondEvent, SecondState> {
       _post = await _delete(event.id);
       yield SecondDeleted();
     }
+    if (event is ModifyRecordSecond){
+      yield SecondInitial();
+      _post = await _modify(event.item);
+      yield SecondDeleted();
+    }
   }
   Future<ItemPost> _fetch(_id) async {
     var url = 'https://jsonplaceholder.typicode.com/posts/$_id';
     var _response = await http.get(url);
+    return (itemPostFromJson(_response.body));
+  }
+  Future<ItemPost> _modify(ItemPost itemPost) async {
+    var url = 'https://jsonplaceholder.typicode.com/posts/${itemPost.id}';
+
+    itemPost.id = itemPost.id;
+    itemPost.body = 'null';
+    itemPost.title = 'null';
+
+    var _response = await http.put(url,
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        body: itemPostToJson(itemPost));
     return (itemPostFromJson(_response.body));
   }
   Future<ItemPost> _delete(_id) async {

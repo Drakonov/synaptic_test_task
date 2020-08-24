@@ -4,15 +4,15 @@ import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'model/item_user.dart';
+import 'model/item_comments.dart';
 
 part 'first_event.dart';
 
 part 'first_state.dart';
 
 class FirstBloc extends Bloc<FirstEvent, FirstState> {
-  int _counterOfPage = 1;
-  List<ItemUser> items = [];
+  int _counterDeletedRow = 0;
+  List<ItemComments> items = [];
   int _page = 0;
 
   FirstBloc(FirstState initialState) : super(FirstInitial());
@@ -35,14 +35,12 @@ class FirstBloc extends Bloc<FirstEvent, FirstState> {
       }
       yield FirstLoaded(items);
     }
-    if (event is ReturnFromSecond){
+    if (event is ReturnAndDeleteSecond){
       yield FirstInitial();
-      for (int _i = 1; _i < 10; _i++) {
-        _page = _i;
-        if (state.item.id != _page)
-        await _fetch(_page);
-      }
-      yield FirstLoaded(items);
+      items.removeAt(-1+event.id+_counterDeletedRow);
+      _counterDeletedRow--;
+      print(-1+event.id);
+      yield FirstReturned(items);
     }
   }
 
@@ -52,7 +50,7 @@ class FirstBloc extends Bloc<FirstEvent, FirstState> {
     //print('Request  status: ${_response.statusCode}.');
     //print('Request  body: ${_response.body}.');
     if (_response.statusCode == 200) {
-      final _itemUser = itemUserFromJson(_response.body);
+      final _itemUser = itemCommentsFromJson(_response.body);
       items.add(_itemUser);
     } else {
       print('Request failed with status: ${_response.statusCode}.');

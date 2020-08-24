@@ -85,14 +85,28 @@ class SecondScreen extends StatelessWidget {
           minLines: 2,
           maxLines: 10,
         ),
-        IconButton(
-          icon: Icon(Icons.clear),
-          onPressed: () {
-            _secondBloc.add(DeleteRecordSecond(state.item.id));
-            _firstBloc.add(ReturnFromSecond(state.item.id));
-            Navigator.pop(context);
-          },
-          tooltip: 'Delete this record',
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: Icon(Icons.clear,color: Colors.red,),
+              onPressed: () {
+                _secondBloc.add(DeleteRecordSecond(state.item.id));
+                _firstBloc.add(ReturnAndDeleteSecond(state.item.id));
+                Navigator.pop(context);
+              },
+              tooltip: 'Delete this record',
+            ),
+            IconButton(
+              icon: Icon(Icons.save, color: Colors.green,),
+              onPressed: () {
+                _secondBloc.add(ModifyRecordSecond(state.item));
+                _firstBloc.add(ReturnAndModifySecond(state.item));
+                Navigator.pop(context);
+              },
+              tooltip: 'Save changes',
+            ),
+          ],
         )
       ],
     );

@@ -32,6 +32,9 @@ class FirstScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
+            if (state is FirstReturned) {
+              return _scrollView(context, state);
+            }
             return Center(
               child: CircularProgressIndicator(),
             );
