@@ -15,6 +15,10 @@ class SecondDeleted extends SecondState{}
 
 class SecondModify extends SecondState{
   final ItemPost item;
+  final String id;
+  final String title;
+  final String body;
 
-  SecondModify(this.item);
+  SecondModify(this.item, this.id, this.title, this.body);
+
 }

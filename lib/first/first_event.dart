@@ -7,14 +7,16 @@ class InitialFirst extends FirstEvent{}
 
 class AddFirst extends FirstEvent{}
 
-class ReturnAndDeleteSecond extends FirstEvent{
+class ReturnAndDeleteFirst extends FirstEvent{
   final int id;
 
-  ReturnAndDeleteSecond(this.id);
+  ReturnAndDeleteFirst(this.id);
 }
 
-class ReturnAndModifySecond extends FirstEvent{
-  final ItemComments item;
+class ReturnAndModifyFirst extends FirstEvent{
+  final String id;
+  final String title;
+  final String body;
 
-  ReturnAndModifySecond(this.item);
+  ReturnAndModifyFirst(this.id, this.title, this.body);
 }

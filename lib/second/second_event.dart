@@ -19,8 +19,13 @@ class DeleteRecordSecond extends SecondEvent{
 
 class ModifyRecordSecond extends SecondEvent{
   final ItemPost item;
+  final String id;
+  final String title;
+  final String body;
 
-  ModifyRecordSecond(this.item);
+  ModifyRecordSecond(this.item, this.id, this.title, this.body);
+
+
 }
 
 

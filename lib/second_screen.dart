@@ -16,7 +16,7 @@ class SecondScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(40.0),
             child: Container(child:
-            BlocBuilder<SecondBloc, SecondState>(builder: (context, state) {
+                BlocBuilder<SecondBloc, SecondState>(builder: (context, state) {
               if (state is SecondInitial) {
                 return Center(
                   child: CircularProgressIndicator(),
@@ -47,7 +47,6 @@ class SecondScreen extends StatelessWidget {
       ),
     );
   }
-
 
   _info(context, state) {
     final FirstBloc _firstBloc = BlocProvider.of<FirstBloc>(context);
@@ -89,19 +88,36 @@ class SecondScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: Icon(Icons.clear,color: Colors.red,),
+              icon: Icon(
+                Icons.clear,
+                color: Colors.red,
+              ),
               onPressed: () {
                 _secondBloc.add(DeleteRecordSecond(state.item.id));
-                _firstBloc.add(ReturnAndDeleteSecond(state.item.id));
+                _firstBloc.add(ReturnAndDeleteFirst(state.item.id));
                 Navigator.pop(context);
               },
               tooltip: 'Delete this record',
             ),
             IconButton(
-              icon: Icon(Icons.save, color: Colors.green,),
+              icon: Icon(
+                Icons.save,
+                color: Colors.green,
+              ),
               onPressed: () {
-                _secondBloc.add(ModifyRecordSecond(state.item));
-                _firstBloc.add(ReturnAndModifySecond(state.item));
+                print(_controllerId.text.toString());
+                print(_controllerTitle.text.toString());
+                print(_controllerBody.text.toString());
+
+                _secondBloc.add(ModifyRecordSecond(
+                    state.item,
+                    _controllerId.text.toString(),
+                    _controllerTitle.text.toString(),
+                    _controllerBody.text.toString()));
+                _firstBloc.add(ReturnAndModifyFirst(
+                    _controllerId.text.toString(),
+                    _controllerTitle.text.toString(),
+                    _controllerBody.text.toString()));
                 Navigator.pop(context);
               },
               tooltip: 'Save changes',

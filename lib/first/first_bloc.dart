@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:synaptic_test_task/second/second_bloc.dart';
 
 import 'model/item_comments.dart';
 
@@ -35,11 +36,18 @@ class FirstBloc extends Bloc<FirstEvent, FirstState> {
       }
       yield FirstLoaded(items);
     }
-    if (event is ReturnAndDeleteSecond){
+    if (event is ReturnAndDeleteFirst){
       yield FirstInitial();
       items.removeAt(-1+event.id+_counterDeletedRow);
       _counterDeletedRow--;
       print(-1+event.id);
+      yield FirstReturned(items);
+    }
+    if (event is ReturnAndModifyFirst){
+      yield FirstInitial();
+      items[-1+int.parse(event.id)+_counterDeletedRow].name =event.title;
+      items[-1+int.parse(event.id)+_counterDeletedRow].body =event.body;
+      print(int.parse(event.id));
       yield FirstReturned(items);
     }
   }

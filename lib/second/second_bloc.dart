@@ -32,7 +32,7 @@ class SecondBloc extends Bloc<SecondEvent, SecondState> {
     }
     if (event is ModifyRecordSecond){
       yield SecondInitial();
-      _post = await _modify(event.item);
+      _post = await _modify(event.item,event.id,event.title,event.body);
       yield SecondDeleted();
     }
   }
@@ -41,16 +41,14 @@ class SecondBloc extends Bloc<SecondEvent, SecondState> {
     var _response = await http.get(url);
     return (itemPostFromJson(_response.body));
   }
-  Future<ItemPost> _modify(ItemPost itemPost) async {
+  Future<ItemPost> _modify(ItemPost itemPost,String id,String title,String body,) async {
     var url = 'https://jsonplaceholder.typicode.com/posts/${itemPost.id}';
-
-    itemPost.id = itemPost.id;
-    itemPost.body = 'null';
-    itemPost.title = 'null';
-
+    itemPost.title = title;
+    itemPost.body = body;
     var _response = await http.put(url,
         headers: {"Content-type": "application/json; charset=UTF-8"},
         body: itemPostToJson(itemPost));
+    print(_response.body);
     return (itemPostFromJson(_response.body));
   }
   Future<ItemPost> _delete(_id) async {
